@@ -76,6 +76,7 @@ def get_model():
         except Exception as e:
             log("FUNC_GET_MODEL", f"An error occurred: {str(e)}")
             pass
+
         choised_models = [int(x.strip()) for x in choised_models.split(",")]
 
         # Validate selected model numbers
@@ -83,6 +84,8 @@ def get_model():
             log("FUNC_GET_MODEL", "Invalid model number(s) selected")
             print("Please enter valid numbers.")
             return get_model()
+
+        log("FUNC_GET_MODEL", f"Selected models: {choised_models}")
 
         selected_models = []
         for num in choised_models:
