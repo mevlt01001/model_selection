@@ -67,19 +67,16 @@ for model_name, model, input_size, features in models:
     dataloaders, num_classes = create_data_loaders(dataset, input_size=input_size, batch_size=16)
     train_class_counts = {cls: 0 for cls in dataloaders['train'].dataset.classes}
 
-    # Train verilerini say
     for _, target in dataloaders['train'].dataset.samples:
         class_name = dataloaders['train'].dataset.classes[target]
         train_class_counts[class_name] += 1
 
     test_class_counts = {cls: 0 for cls in dataloaders['val'].dataset.classes}
 
-    # Test verilerini say
     for _, target in dataloaders['val'].dataset.samples:
         class_name = dataloaders['val'].dataset.classes[target]
         test_class_counts[class_name] += 1
 
-    # Çıktıyı istenilen formatta yazdır
     print(f"{'CLASSES':*^50} ")    
     for class_name in train_class_counts:
         train_count = train_class_counts[class_name]
