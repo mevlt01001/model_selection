@@ -25,8 +25,11 @@ def create_dataset(root_dir, val_size=0.2, test_size=0.2):
 
     log(where, "[INFO]: Creating new dataset folders...")
     os.makedirs(train_dir, exist_ok=True)
+    log(where, "[INFO]: Train directory: " + train_dir)
     os.makedirs(val_dir, exist_ok=True)
+    log(where, "[INFO]: Val directory: " + val_dir)
     os.makedirs(test_dir, exist_ok=True)
+    log(where, "[INFO]: Test directory: " + test_dir)
 
     for class_name in os.listdir(root_dir):
         class_path = os.path.join(root_dir, class_name)
