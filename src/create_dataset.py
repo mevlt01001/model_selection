@@ -6,7 +6,8 @@ from src.log import log
 
 def create_dataset(root_dir, val_size=0.2, test_size=0.2):
 
-    aroot_dir = f'adjusted_{root_dir}'
+    last_folder = root_dir.split("/")[-1]
+    aroot_dir = f'adjusted_{last_folder}'
     where = "FUNC_CREATE_DATASET"
 
     if os.path.exists(aroot_dir):

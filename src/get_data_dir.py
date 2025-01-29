@@ -26,8 +26,11 @@ def get_data_dir():
             print("Seçilen dizin geçersiz. Lütfen tekrar deneyin.")
             return get_data_dir()
 
+        script_dir = os.getcwd()  # Çalıştırılan script'in bulunduğu dizin
+        data_dir = os.path.relpath(data_dir, script_dir)
         success_message = f"[SUCCESS]: Veri dizini '{data_dir}' başarıyla bulundu."
         log("FUNC_GET_DATA_DIR", success_message)
+        print(success_message)
         return data_dir
 
     except PermissionError as pe:

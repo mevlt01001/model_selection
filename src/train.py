@@ -42,8 +42,10 @@ def train_and_evaluate(model, model_name, dataloaders, loss_fn, optimizer, num_e
                 loss.backward()  
                 optimizer.step()  
 
-                total_loss += loss.item()
-                log(where, f"[{model_name.upper()} INFO]: Batch {batch_idx}: Loss = {loss.item():.4f}", train_log_file)
+                total_loss += loss.item()                
+                print(f"Epoch {epoch+1}/{num_epochs} completed %{(batch_idx+1)/len(dataloaders['train'])*100:.2f} | Loss: {loss.item():.4f}" , end="\r")
+                log(where, f"[{model_name.upper()} INFO]: Batch {batch_idx}/{len(dataloaders['train'])}: Loss = {loss.item():.4f}", train_log_file)
+                
 
             avg_loss = total_loss / len(dataloaders['train'])
             log(where, f"[{model_name.upper()} INFO]: Epoch {epoch+1} completed. Average Loss = {avg_loss:.4f}", train_log_file)

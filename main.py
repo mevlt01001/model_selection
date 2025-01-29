@@ -52,7 +52,7 @@ loss_fn = nn.CrossEntropyLoss()
 num_epochs = 10
 
 
-for model_name, model, input_size, features in models:
+for model_name, model, input_size, features in models:    
     # device free
     torch.cuda.empty_cache()
     clear()
@@ -96,5 +96,6 @@ for model_name, model, input_size, features in models:
     optimizer = optim.Adam(model.parameters(), lr=0.001)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.classifier = CustomClassifier(num_classes)
-    model.to(device)
+    model.to(device)    
+
     train_and_evaluate(model, model_name, dataloaders, loss_fn, optimizer, num_epochs, device)
