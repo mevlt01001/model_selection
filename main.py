@@ -7,6 +7,7 @@ from src.get_models import get_model
 from src.clear import clear
 from src.create_dataLoader import create_data_loaders
 from src.train import train_and_evaluate
+from src.get_test_val_size import test_val_size
 import os
 
 
@@ -44,7 +45,8 @@ class CustomClassifier(nn.Module):
 
 models = get_model()
 data_dir = get_data_dir()
-dataset = create_dataset(data_dir)
+test_size, val_size = test_val_size()
+dataset = create_dataset(data_dir, test_size=test_size, val_size=val_size)
 
 loss_fn = nn.CrossEntropyLoss()
 num_epochs = 10
@@ -71,17 +73,24 @@ for model_name, model, input_size, features in models:
         class_name = dataloaders['train'].dataset.classes[target]
         train_class_counts[class_name] += 1
 
-    test_class_counts = {cls: 0 for cls in dataloaders['val'].dataset.classes}
+    val_class_counts = {cls: 0 for cls in dataloaders['val'].dataset.classes}
 
     for _, target in dataloaders['val'].dataset.samples:
         class_name = dataloaders['val'].dataset.classes[target]
+        val_class_counts[class_name] += 1
+
+    test_class_counts = {cls: 0 for cls in dataloaders['test'].dataset.classes}
+
+    for _, target in dataloaders['test'].dataset.samples:
+        class_name = dataloaders['test'].dataset.classes[target]
         test_class_counts[class_name] += 1
 
     print(f"{'CLASSES':*^50} ")    
     for class_name in train_class_counts:
         train_count = train_class_counts[class_name]
+        val_count = val_class_counts[class_name]
         test_count = test_class_counts[class_name]
-        print(f"{class_name:<20} train {train_count}, test {test_count} images")
+        print(f"{class_name:<20} train {train_count}, val {val_count}, test {test_count}")
     print("\n")
 
     optimizer = optim.Adam(model.parameters(), lr=0.001)

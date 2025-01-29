@@ -17,19 +17,26 @@ def create_data_loaders(data_dir, input_size, batch_size=32, num_workers=4):
             transforms.Resize(input_size),
             transforms.ToTensor(),
             transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        ]),
+        'test': transforms.Compose([
+            transforms.Resize(input_size),
+            transforms.ToTensor(),
+            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
         ])
     }
 
     # Veri kümeleri
     image_datasets = {
         'train': datasets.ImageFolder(os.path.join(data_dir, 'train'), transform=data_transforms['train']),
-        'val': datasets.ImageFolder(os.path.join(data_dir, 'val'), transform=data_transforms['val'])
+        'val': datasets.ImageFolder(os.path.join(data_dir, 'val'), transform=data_transforms['val']),
+        'test': datasets.ImageFolder(os.path.join(data_dir, 'test'), transform=data_transforms['test'])
     }
 
     # DataLoader'lar
     data_loaders = {
         'train': DataLoader(image_datasets['train'], batch_size=batch_size, shuffle=True, num_workers=num_workers),
-        'val': DataLoader(image_datasets['val'], batch_size=batch_size, shuffle=False, num_workers=num_workers)
+        'val': DataLoader(image_datasets['val'], batch_size=batch_size, shuffle=False, num_workers=num_workers),
+        'test': DataLoader(image_datasets['test'], batch_size=batch_size, shuffle=False, num_workers=num_workers)
     }
 
     num_classes = len(image_datasets['train'].classes)
