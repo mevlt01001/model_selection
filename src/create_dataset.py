@@ -8,6 +8,7 @@ def create_dataset(root_dir, val_size=0.2, test_size=0.2):
 
     last_folder = root_dir.split("/")[-1]
     aroot_dir = f'adjusted_{last_folder}'
+    print(f"adjusted root dir {aroot_dir}")
     where = "FUNC_CREATE_DATASET"
 
     if os.path.exists(aroot_dir):
@@ -37,9 +38,16 @@ def create_dataset(root_dir, val_size=0.2, test_size=0.2):
             log(where, f"[INFO]: Processing class '{class_name}'...")
             images = os.listdir(class_path)
             try:
-                train_images, val_and_test = train_test_split(images, test_size=(val_size+test_size), random_state=42)
-                new_test_size = test_size / (test_size + val_size)
-                val_images, test_images = train_test_split(val_and_test, test_size=(new_test_size), random_state=42)
+                if test_size != 0 and val_size != 0:
+                    train_images, val_and_test = train_test_split(images, test_size=(val_size+test_size), random_state=42)
+                    new_test_size = test_size / (test_size + val_size)
+                    val_images, test_images = train_test_split(val_and_test, test_size=(new_test_size), random_state=42)
+                elif test_size == 0:
+                    train_images, val_images = train_test_split(images, test_size=val_size, random_state=42)
+                    test_images = []
+                elif val_size == 0:
+                    train_images, test_images = train_test_split(images, test_size=test_size, random_state=42)
+                    val_images = []
 
             except ValueError as e:
                 log(where, f"[ERROR]: Unable to split images for class '{class_name}': {str(e)}")

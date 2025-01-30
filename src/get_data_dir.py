@@ -9,7 +9,7 @@ def get_data_dir():
     try:
         # Tkinter uygulamasını gizli çalıştırmak için bir kök pencere oluştur ve gizle
         root = tk.Tk()
-        root.withdraw()
+        #root.withdraw()
 
         # Kullanıcıdan bir klasör seçmesini iste
         data_dir = filedialog.askdirectory(title="Veri dizinini seçin")
@@ -28,7 +28,7 @@ def get_data_dir():
 
         script_dir = os.getcwd()  # Çalıştırılan script'in bulunduğu dizin
         data_dir = os.path.relpath(data_dir, script_dir)
-        
+
         success_message = f"[SUCCESS]: Veri dizini '{data_dir}' başarıyla bulundu."
         log("FUNC_GET_DATA_DIR", success_message)
         print(success_message)
